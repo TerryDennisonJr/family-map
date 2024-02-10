@@ -96,5 +96,5 @@ fig.update_layout(
 )
 
 # send the interactive map to a html file
-fig.write_html('/Users/terrydennison/Desktop/Family Map/index.html')
+fig.write_html('/Users/terrydennison/Desktop/Family Map/family-map/index.html')
 fig.show()
