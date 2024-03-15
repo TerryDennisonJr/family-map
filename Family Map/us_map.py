@@ -71,7 +71,7 @@ state_vals = {
 state_code = re.findall("[A-Z]{2}", str(df["State"]))
 
 # interate through State Code values and update count in "state_vals" dictionary
-vals=1
+vals=0
 for x in state_vals:
     if x in state_code:
         vals+=1
