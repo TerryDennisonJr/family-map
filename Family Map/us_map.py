@@ -71,7 +71,6 @@ state_vals = {
 state_code = re.findall("[A-Z]{2}", str(df["State"]))
 
 # interate through State Code values and update count in "state_vals" dictionary
-vals=0
 for x in state_vals:
     state_vals.update({x: state_code.count(x)})
 
@@ -79,11 +78,6 @@ for x in state_vals:
 data = {"State": state_vals.keys(), "Val":state_vals.values()}
 list_df = pd.DataFrame(data)
 print(list_df)
-
-for x in state_vals:
-    if x in state_code:
-        vals+=1
-        state_vals.update({x: vals})
 
 # plot the dataframe in a map
 fig = go.Figure(data=go.Choropleth(
