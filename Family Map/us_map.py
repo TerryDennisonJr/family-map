@@ -4,7 +4,7 @@ import pandas as pd
 
 
 # read csv file into a pandas dataframe
-df = pd.read_csv("/Users/terrydennison/Desktop/Family Map/Subscriptions.csv")
+df = pd.read_csv("~/Desktop/Subscriptions.csv")
 
 # created a dictonary to hold items
 state_vals = {
@@ -94,5 +94,5 @@ fig.update_layout(
 )
 
 # send the interactive map to a html file
-fig.write_html('/Users/terrydennison/Desktop/Family Map/family-map/map.html')
+fig.write_html("map.html")
 #fig.show()
