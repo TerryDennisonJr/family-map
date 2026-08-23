@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: gsheets-app
+  namespace: family-map
 spec:
   schedule: "*/2 * * * *" # every day at 7:00 AM cluster time
   jobTemplate:
