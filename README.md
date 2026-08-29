@@ -8,42 +8,29 @@
 6. Fill in SA_FILE path Environment Variable for K8s
 7. Build image
 
-```bash
-kubectl create secret generic google-service-account \
-  --from-file=service_account.json=<FILE_NAME>.json
-```
+## Create Secret
 
 ```bash
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: gsheets-app
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: gsheets-app
-  template:
-    metadata:
-      labels:
-        app: gsheets-app
-    spec:
-      containers:
-        - name: gsheets-app
-          image: your-image:latest
-          env:
-            - name: GOOGLE_APPLICATION_CREDENTIALS
-              value: /var/secrets/google/service_account.json
-          volumeMounts:
-            - name: google-creds
-              mountPath: /var/secrets/google
-              readOnly: true
-      volumes:
-        - name: google-creds
-          secret:
-            secretName: google-service-account
+kubectl create secret generic google-service-account -n family-map \
+  --from-file=deployment/gcp_creds/gcp_service_account.json
 ```
-## Build Image
-```bash
 
+## Create CronJob
+
+```bash
+helm install denn-mapy family-mapper 
+```
+
+## Manually Deploy Job from CronJob
+
+```bash
+kubectl create job --from=cronjob/family-mapper -n family-map gsheet-run-$(date +%Y%m%d)
+```
+
+## Teardown
+
+```bash
+sudo kubectl delete cronjob family-mapper -n family-map
+
+sudo kubectl delete secret google-service-account -n family-map
 ```
