@@ -1,10 +1,36 @@
-# Family Choropleth
+# Setup
 
-## Purpose:
-- Use csv data from family website form submissions
-  - <link>https://www.dennison-reunions.com/</link>
-  
-- From that csv file, use `Python` to generate a Map representing the count of member across the United States.
+1. Setup google service account
+2. Setup api key for service account
+3. Create service account .json file
+4. Download .json file
+5. Share gsheet with service account
+6. Fill in SA_FILE path Environment Variable for K8s
+7. Build image
 
-<img width="1340" alt="Screenshot 2024-02-04 at 6 32 26 AM" src="https://github.com/TerryDennisonJr/family-map/assets/77395950/e89e4e85-571d-4a19-9acf-265070547840">
+## Create Secret
 
+```bash
+kubectl create secret generic google-service-account -n family-map \
+  --from-file=deployment/gcp_creds/gcp_service_account.json
+```
+
+## Create CronJob
+
+```bash
+helm install denn-mapy family-mapper 
+```
+
+## Manually Deploy Job from CronJob
+
+```bash
+kubectl create job --from=cronjob/family-mapper -n family-map gsheet-run-$(date +%Y%m%d)
+```
+
+## Teardown
+
+```bash
+sudo kubectl delete cronjob family-mapper -n family-map
+
+sudo kubectl delete secret google-service-account -n family-map
+```
